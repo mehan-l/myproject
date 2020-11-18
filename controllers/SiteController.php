@@ -2,6 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\Different;
+use app\models\FormReviewModel;
+use app\models\Grocerystore;
+use app\models\Shoestore;
+use app\models\Supermarkets;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -126,23 +131,76 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
+    /*Adding new reviw*/
+
     public function actionAddreview ()
 	{
-		return $this->render('addreview');
+		$formreviewmodel = new FormReviewModel();
+
+		if($formreviewmodel->load(Yii::$app->request->post()) && $formreviewmodel->validate()) {
+			/*echo '<pre>'; print_r($formreviewmodel->category);
+			die;*/
+			switch ($formreviewmodel->category) {
+				case 0:
+					$grocerystore = new Grocerystore();
+					$grocerystore->name = $formreviewmodel->name;
+					$grocerystore->review = $formreviewmodel->review;
+					$grocerystore->save();
+					$this->refresh();
+				break;
+				case 1:
+					$shoestore = new Shoestore();
+					$shoestore->name = $formreviewmodel->name;
+					$shoestore->review = $formreviewmodel->review;
+					$shoestore->save();
+					$this->refresh();
+				break;
+				case 2:
+					$supermarkets = new Supermarkets();
+					$supermarkets->name = $formreviewmodel->name;
+					$supermarkets->review = $formreviewmodel->name;
+					$supermarkets->save();
+					$this->refresh();
+					break;
+				case 3:
+					$different = new Different();
+					$different->name = $formreviewmodel->name;
+					$different->review = $formreviewmodel->review;
+					$different->save();
+					$this->refresh();
+					break;
+			}
+		}
+
+		return $this->render('addreview', compact('formreviewmodel'));
 	}
+
+	/*Reviews about grocerystore*/
 
 	public function actionReviewaboutgrocerystore ()
 	{
     	return $this->render('reviewaboutgrocerystore');
 	}
 
+	/*reviews about shoestore*/
+
 	public function actionReviewaboutshoestore ()
 	{
 		return $this->render('reviewaboutshoestore');
 	}
 
-	public function actionReviewaboutsupermarkets () {
+	/*reviews about supermarkets*/
+
+	public function actionReviewaboutsupermarkets ()
+	{
     	return $this->render('reviewaboutsupermarkets');
+	}
+
+	/*reviews about different*/
+
+	public function actionReviewaboutdif ()
+	{
+		return $this->render('reviewaboutdif');
 	}
 
 }

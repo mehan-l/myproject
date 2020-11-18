@@ -38,13 +38,14 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Домой', 'url' => ['/site/index']],
-            ['label' => 'О нас', 'url' => ['/site/about']],
+            ['label' => 'Главная', 'url' => ['/site/index']],
+            /*['label' => 'О нас', 'url' => ['/site/about']],*/
             ['label' => 'Контакты', 'url' => ['/site/contact']],
-            ['label'=>'Добавить отзыв', 'url' => 'addreview'],
-			['label'=>'Прродуктовые магазины', 'url' => 'reviewaboutgrocerystore'],
-			['label'=>'Обувные магазины', 'url' => 'reviewaboutshoestore'],
-			['label'=>'Супермаркеты', 'url' => 'reviewaboutsupermarkets'],
+            ['label'=>'Добавить отзыв', 'url' => ['site/addreview']],
+			['label'=>'Прродуктовые магазины', 'url' => ['site/reviewaboutgrocerystore']],
+			['label'=>'Обувные магазины', 'url' => ['site/reviewaboutshoestore']],
+			['label'=>'Супермаркеты', 'url' => ['site/reviewaboutsupermarkets']],
+			['label'=>'Разное', 'url' => ['site/reviewaboutdif']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Войти', 'url' => ['/site/login']]
             ) : (
