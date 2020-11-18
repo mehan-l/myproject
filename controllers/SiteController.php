@@ -125,4 +125,24 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionAddreview ()
+	{
+		return $this->render('addreview');
+	}
+
+	public function actionReviewaboutgrocerystore ()
+	{
+    	return $this->render('reviewaboutgrocerystore');
+	}
+
+	public function actionReviewaboutshoestore ()
+	{
+		return $this->render('reviewaboutshoestore');
+	}
+
+	public function actionReviewaboutsupermarkets () {
+    	return $this->render('reviewaboutsupermarkets');
+	}
+
 }
