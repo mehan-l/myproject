@@ -40,12 +40,12 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Главная', 'url' => ['/site/index']],
             /*['label' => 'О нас', 'url' => ['/site/about']],*/
-            ['label' => 'Контакты', 'url' => ['/site/contact']],
-            ['label'=>'Добавить отзыв', 'url' => ['site/addreview']],
 			['label'=>'Прродуктовые магазины', 'url' => ['site/reviewaboutgrocerystore']],
 			['label'=>'Обувные магазины', 'url' => ['site/reviewaboutshoestore']],
 			['label'=>'Супермаркеты', 'url' => ['site/reviewaboutsupermarkets']],
 			['label'=>'Разное', 'url' => ['site/reviewaboutdif']],
+			['label'=>'Добавить отзыв', 'url' => ['site/addreview']],
+			['label' => 'Контакты', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Войти', 'url' => ['/site/login']]
             ) : (
@@ -74,9 +74,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Отзывы <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <!--<p class="pull-right"><?/*= Yii::powered() */?></p>-->
     </div>
 </footer>
 

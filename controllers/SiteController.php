@@ -8,6 +8,8 @@ use app\models\Grocerystore;
 use app\models\Shoestore;
 use app\models\Supermarkets;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\debug\models\timeline\DataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -135,6 +137,7 @@ class SiteController extends Controller
 
     public function actionAddreview ()
 	{
+		$this->view->title = 'Добавить новый отзыв о магазине';
 		$formreviewmodel = new FormReviewModel();
 
 		if($formreviewmodel->load(Yii::$app->request->post()) && $formreviewmodel->validate()) {
@@ -147,18 +150,18 @@ class SiteController extends Controller
 					$grocerystore->review = $formreviewmodel->review;
 					$grocerystore->save();
 					$this->refresh();
-				break;
+					break;
 				case 1:
 					$shoestore = new Shoestore();
 					$shoestore->name = $formreviewmodel->name;
 					$shoestore->review = $formreviewmodel->review;
 					$shoestore->save();
 					$this->refresh();
-				break;
+					break;
 				case 2:
 					$supermarkets = new Supermarkets();
 					$supermarkets->name = $formreviewmodel->name;
-					$supermarkets->review = $formreviewmodel->name;
+					$supermarkets->review = $formreviewmodel->review;
 					$supermarkets->save();
 					$this->refresh();
 					break;
@@ -179,28 +182,56 @@ class SiteController extends Controller
 
 	public function actionReviewaboutgrocerystore ()
 	{
-    	return $this->render('reviewaboutgrocerystore');
+		$grocerystoreProvider = new ActiveDataProvider([
+			'query' => Grocerystore::find(),
+			'pagination' => [
+				'pageSize' => '10'
+			],
+		]);
+		$this->view->title = 'Отзывы о продуктовых магазинах';
+    	return $this->render('reviewaboutgrocerystore', compact('grocerystoreProvider'));
 	}
 
 	/*reviews about shoestore*/
 
 	public function actionReviewaboutshoestore ()
 	{
-		return $this->render('reviewaboutshoestore');
+		$this->view->title = 'Отзывы об обувных магазинах';
+		$shoestorekProvider = new ActiveDataProvider([
+			'query' => Shoestore::find(),
+			'pagination' => [
+				'pageSize' => '10'
+			],
+		]);
+		return $this->render('reviewaboutshoestore', compact('shoestorekProvider'));
 	}
 
 	/*reviews about supermarkets*/
 
 	public function actionReviewaboutsupermarkets ()
 	{
-    	return $this->render('reviewaboutsupermarkets');
+		$this->view->title = 'Отзыв о супермаркетах';
+		$supermarkProvider = new ActiveDataProvider([
+			'query' => Supermarkets::find(),
+			'pagination' => [
+				'pageSize' => '10'
+			],
+		]);
+    	return $this->render('reviewaboutsupermarkets', compact('supermarkProvider'));
 	}
 
 	/*reviews about different*/
 
 	public function actionReviewaboutdif ()
 	{
-		return $this->render('reviewaboutdif');
+		$this->view->title = 'Отзыв о разных магазинах';
+		$difProvider = new ActiveDataProvider([
+			'query' => Different::find(),
+			'pagination' => [
+				'pageSize' => '10'
+			],
+		]);
+		return $this->render('reviewaboutdif', compact('difProvider'));
 	}
 
 }

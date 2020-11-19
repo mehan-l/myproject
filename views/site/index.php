@@ -6,7 +6,7 @@ $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
-    <h1>Сайт с отзывами и магазинах. Зайти оставь свой отзыв.</h1>
+    <h1>Сайт с отзывами о магазинах. Зайти оставь свой отзыв.</h1>
 
     <!--<div class="jumbotron">
         <h1>Congratulations!</h1>

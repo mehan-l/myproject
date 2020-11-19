@@ -12,6 +12,7 @@ class FormReviewModel extends Model
 	public $name;
 	public $review;
 	public $category;
+	public $verifyCode;
 
 
 	public function rules()
@@ -19,6 +20,7 @@ class FormReviewModel extends Model
 		return [
 			[['name', 'review', 'category'], 'required', 'message' => 'Обязательное поле'],
 			[['name', 'review'], 'trim'],
+			['verifyCode', 'captcha', 'message'=> 'Капча не введена'],
 		];
 	}
 
@@ -27,7 +29,8 @@ class FormReviewModel extends Model
 		return [
 			'name' => 'Имя',
 			'review' => 'Отзыв',
-			'category' => 'Категория'
+			'category' => 'Категория',
+			'verifyCode' => 'Капча',
 		];
 	}
 }
