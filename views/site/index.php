@@ -3,10 +3,13 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
-?>
+
+use yii\helpers\Html; ?>
 <div class="site-index">
 
     <h1>Сайт с отзывами о магазинах. Зайти оставь свой отзыв.</h1>
+
+    <?= '<h2>Чтобы добавить свой отзыв нужно '.Html::a('зарегистрироваться', ['site/registration']).' на сайте или '.Html::a('войти', ['site/login']).'</h2>' ?>
 
     <!--<div class="jumbotron">
         <h1>Congratulations!</h1>

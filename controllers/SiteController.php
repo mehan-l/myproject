@@ -2,11 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\Comments;
 use app\models\Different;
 use app\models\FormReviewModel;
 use app\models\Grocerystore;
+use app\models\RegistrationModel;
 use app\models\Shoestore;
 use app\models\Supermarkets;
+use app\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\debug\models\timeline\DataProvider;
@@ -234,4 +237,23 @@ class SiteController extends Controller
 		return $this->render('reviewaboutdif', compact('difProvider'));
 	}
 
+	/*adding new user*/
+	public function actionRegistration()
+	{
+		$regmodel = new RegistrationModel();
+		$newuser = new User();
+
+		/*echo '<pre>'.print_r(Yii::$app->user->isGuest);
+		die();*/
+
+		if($regmodel->load(Yii::$app->request->post())&&$regmodel->validate()) {
+			$newuser->username = $regmodel->name;
+			$newuser->password_hash = Yii::$app->security->generatePasswordHash($regmodel->password);
+			$newuser->password_reset_token = $newuser->generateAuthKey();
+			$newuser->save();
+			$this->refresh();
+		}
+
+		return $this->render('registration', compact('regmodel'));
+	}
 }

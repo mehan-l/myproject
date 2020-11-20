@@ -1,16 +1,16 @@
 <?php
 
 
-/*Form for adding new review*/
-
 use yii\captcha\Captcha;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+if (Yii::$app->user->isGuest) {
+	echo '<h2>Чтобы добавить свой отзыв нужно '.Html::a('зарегистрироваться', ['site/registration']).' на сайте или '.Html::a('войти', ['site/login']).'</h2>'	;
+} else {
+
 $form = ActiveForm::begin();
 ?>
-
-
 
 <?= $form->field($formreviewmodel, 'name')->textInput() ?>
 <?= $form->field($formreviewmodel, 'review')->textarea(['rows'=>10, 'cols'=> 6])?>
@@ -25,7 +25,7 @@ $form = ActiveForm::begin();
 ]) ?>
 <?= Html::submitButton('Оставить отзыв'); ?>
 
+<?php ActiveForm::end();
+}
 
-
-
-<?php ActiveForm::end(); ?>
+?>
