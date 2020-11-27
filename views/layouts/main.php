@@ -41,12 +41,11 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Главная', 'url' => ['/site/index']],
             /*['label' => 'О нас', 'url' => ['/site/about']],*/
-			['label'=>'Прродуктовые магазины', 'url' => ['site/reviewaboutgrocerystore']],
-			['label'=>'Обувные магазины', 'url' => ['site/reviewaboutshoestore']],
-			['label'=>'Супермаркеты', 'url' => ['site/reviewaboutsupermarkets']],
-			['label'=>'Разное', 'url' => ['site/reviewaboutdif']],
-			['label'=>'Добавить отзыв', 'url' => ['site/addreview']],
-			['label' => 'Контакты', 'url' => ['/site/contact']],
+            ['label' => 'Продуктовые магазины', 'url' => ['site/reviewaboutgrocerystore']],
+            ['label' => 'Обувные магазины', 'url' => ['site/reviewaboutshoestore']],
+            ['label' => 'Супермаркеты', 'url' => ['site/reviewaboutsupermarkets']],
+            ['label' => 'Разное', 'url' => ['site/reviewaboutdif']],
+            ['label' => 'Добавить отзыв', 'url' => ['site/addreview']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Войти', 'url' => ['/site/login']]
             ) : (

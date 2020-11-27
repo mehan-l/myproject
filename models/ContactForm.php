@@ -23,11 +23,8 @@ class ContactForm extends Model
     public function rules()
     {
         return [
-            // name, email, subject and body are required
             [['name', 'email', 'subject', 'body'], 'required', 'message' => 'Поле не может быть пустым'],
-            // email has to be a valid email address
             ['email', 'email'],
-            // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
     }
@@ -39,10 +36,10 @@ class ContactForm extends Model
     {
         return [
             'verifyCode' => 'Капча',
-			'name' => 'Имя',
-			'email' => 'Электронная почта',
-			'subject' => 'Тема',
-			'body' => 'Сообщение',
+            'name' => 'Имя',
+            'email' => 'Электронная почта',
+            'subject' => 'Тема',
+            'body' => 'Сообщение',
         ];
     }
 

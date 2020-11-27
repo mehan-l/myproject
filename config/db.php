@@ -6,7 +6,7 @@ return [
     'username' => 'mehan',
     'password' => 'Mm-325284314',
     'charset' => 'utf8',
-	/*'charset' => 'utf8mb4',*/
+    /*'charset' => 'utf8mb4',*/
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,

@@ -7,48 +7,70 @@ use yii\db\ActiveRecord;
 use yii\web\NotFoundHttpException;
 use Yii;
 
+/**
+ * Class User identification and authorization users
+ * @package app\models
+ */
 class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
-	const STATUS_DELETED = 0;
-	const STATUS_ACTIVE = 10;
+    private const STATUS_DELETED = 0;
+    private const STATUS_ACTIVE = 10;
 
-	public static function tableName()
-	{
-		return '{{%user}}';
-	}
+    /**
+     * Get tables name
+     *
+     * @return string
+     */
+    public static function tableName()
+    {
+        return '{{%user}}';
+    }
 
-	public function behaviors ()
-	{
-		return [
-			TimestampBehavior::className(),
-		];
-	}
+    /**
+     * Update time stamp
+     *
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            ];
+    }
 
-	public function rules()
-	{
-		return [
-			['status', 'default', 'value' => self::STATUS_ACTIVE],
-			['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-		];
-	}
+    /**
+     * Validates user status
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ];
+    }
 
 
     /**
+     * Get instance class identity
+     *
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        /*return static::findOne($id);*/
-		return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
+     * Identity user by access token
+     *
      * {@inheritdoc}
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-
     }
+
     /**
      * Finds user by username
      *
@@ -57,33 +79,36 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        /*return static::findOne(['username' => $username]);*/
-		return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
+     * Get user id
+     *
      * {@inheritdoc}
      */
     public function getId()
     {
-       /* return $this->id;*/
-		return $this->getPrimaryKey();
+        return $this->getPrimaryKey();
     }
 
     /**
+     * Get key for authorization by cookie
+     *
      * {@inheritdoc}
      */
     public function getAuthKey()
     {
-        /*return $this->authKey;*/
     }
 
     /**
+     * Validates key
+     *
      * {@inheritdoc}
      */
     public function validateAuthKey($authKey)
     {
-		return $this->getAuthKey() === $authKey;
+        return $this->getAuthKey() === $authKey;
     }
 
     /**
@@ -95,11 +120,14 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function validatePassword($password)
     {
         return \Yii::$app->security->validatePassword($password, $this->password_hash);
-
     }
 
-	public function generateAuthKey()
-	{
-		$this->auth_key = Yii::$app->security->generateRandomString();
-	}
+    /**
+     * Generates key
+     * @throws \yii\base\Exception
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
 }
