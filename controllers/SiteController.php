@@ -2,7 +2,17 @@
 
 namespace app\controllers;
 
+use app\models\Comments;
+use app\models\Different;
+use app\models\FormReviewModel;
+use app\models\Grocerystore;
+use app\models\RegistrationModel;
+use app\models\Shoestore;
+use app\models\Supermarkets;
+use app\models\User;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\debug\models\timeline\DataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -10,6 +20,12 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+/**
+ * Open part of site controller
+ *
+ * Class SiteController
+ * @package app\controllers
+ */
 class SiteController extends Controller
 {
     /**
@@ -124,5 +140,153 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Add new review action
+     *
+     * @return string
+     */
+    public function actionAddreview()
+    {
+        $this->view->title = 'Добавить новый отзыв о магазине';
+        $formreviewmodel = new FormReviewModel();
+
+        if ($formreviewmodel -> load(Yii::$app->request->post()) && $formreviewmodel->validate()) {
+            switch ($formreviewmodel->category) {
+                case 0:
+                    $grocerystore = new Grocerystore();
+                    $grocerystore->username = $formreviewmodel->name;
+                    $grocerystore->review = $formreviewmodel->review;
+                    $grocerystore->save();
+                    $this->refresh();
+                    break;
+                case 1:
+                    $shoestore = new Shoestore();
+                    $shoestore->username = $formreviewmodel->name;
+                    $shoestore->review = $formreviewmodel->review;
+                    $shoestore->save();
+                    $this->refresh();
+                    break;
+                case 2:
+                    $supermarkets = new Supermarkets();
+                    $supermarkets->username = $formreviewmodel->name;
+                    $supermarkets->review = $formreviewmodel->review;
+                    $supermarkets->save();
+                    $this->refresh();
+                    break;
+                case 3:
+                    $different = new Different();
+                    $different->username = $formreviewmodel->name;
+                    $different->review = $formreviewmodel->review;
+                    $different->save();
+                    $this->refresh();
+                    break;
+            }
+        }
+
+        return $this->render('addreview', compact('formreviewmodel'));
+    }
+
+    /**
+     * Display reviews about grocery store
+     *
+     * @return string
+     */
+    public function actionReviewaboutgrocerystore()
+    {
+        $grocerystoreProvider = new ActiveDataProvider([
+            'query' => Grocerystore::find(),
+            'pagination' => [
+                'pageSize' => '10'
+            ],
+        ]);
+        $this->view->title = 'Отзывы о продуктовых магазинах';
+        return $this->render('reviewaboutgrocerystore', compact('grocerystoreProvider'));
+    }
+
+    /**
+     * Display reviews about shoe store
+     *
+     * @return string
+     */
+    public function actionReviewaboutshoestore()
+    {
+        $this->view->title = 'Отзывы об обувных магазинах';
+        $shoestorekProvider = new ActiveDataProvider([
+            'query' => Shoestore::find(),
+            'pagination' => [
+                'pageSize' => '10'
+            ],
+        ]);
+
+        return $this->render('reviewaboutshoestore', compact('shoestorekProvider'));
+    }
+
+    /**
+     * Display reviews about supermarkets
+     *
+     * @return string
+     */
+    public function actionReviewaboutsupermarkets()
+    {
+        $this->view->title = 'Отзыв о супермаркетах';
+        $supermarkProvider = new ActiveDataProvider([
+            'query' => Supermarkets::find(),
+            'pagination' => [
+                'pageSize' => '10'
+            ],
+        ]);
+
+        return $this->render('reviewaboutsupermarkets', compact('supermarkProvider'));
+    }
+
+    /**
+     * Display reviews about different stores
+     *
+     * @return string
+     */
+    public function actionReviewaboutdif()
+    {
+        $this->view->title = 'Отзыв о разных магазинах';
+        $difProvider = new ActiveDataProvider([
+            'query' => Different::find(),
+            'pagination' => [
+                'pageSize' => '10'
+            ],
+        ]);
+        return $this->render('reviewaboutdif', compact('difProvider'));
+    }
+
+    /**
+     * Registration new user action
+     *
+     * @return string
+     * @throws \yii\base\Exception
+     */
+    public function actionRegistration()
+    {
+        $regmodel = new RegistrationModel();
+        $newuser = new User();
+
+        if ($regmodel->load(Yii::$app->request->post()) && $regmodel->validate()) {
+            $newuser->username = $regmodel->username;
+            $newuser->password_hash = Yii::$app->security->generatePasswordHash($regmodel->password);
+            $newuser->password_reset_token = $newuser->generateAuthKey();
+            $newuser->save();
+            $this->refresh();
+            $this->redirect('http://myproject.com/site/registrationsucceful');
+        }
+        return $this->render('registration', compact('regmodel'));
+    }
+
+    /**
+     * Successful registration page
+     *
+     * @return string
+     */
+    public function actionRegistrationsucceful()
+    {
+        return $this->render('registrationsucceful');
     }
 }
